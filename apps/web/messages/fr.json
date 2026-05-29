@@ -1,0 +1,137 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "feed": "Fil",
+    "trending": "Tendances",
+    "jobs": "Emplois",
+    "matches": "Correspondances",
+    "messages": "Messages",
+    "communities": "Communautés",
+    "network": "Réseau",
+    "bookmarks": "Favoris",
+    "ai": "IA Studio",
+    "cvBuilder": "Éditeur de CV",
+    "cvScore": "Score de CV",
+    "interview": "Entretien fictif",
+    "marketplace": "Marketplace",
+    "events": "Événements",
+    "roadmaps": "Roadmaps",
+    "coach": "Coach carrière",
+    "projects": "Idées de projets",
+    "stats": "Stats",
+    "profile": "Profil",
+    "settings": "Paramètres",
+    "search": "Rechercher",
+    "notifications": "Notifications"
+  },
+  "common": {
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "continue": "Continuer",
+    "back": "Retour",
+    "next": "Suivant",
+    "loading": "Chargement",
+    "submit": "Envoyer",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "create": "Créer",
+    "search": "Rechercher",
+    "follow": "Suivre",
+    "following": "Abonné",
+    "message": "Message",
+    "apply": "Postuler",
+    "share": "Partager",
+    "more": "Plus",
+    "yes": "Oui",
+    "no": "Non"
+  },
+  "auth": {
+    "signIn": "Se connecter",
+    "signUp": "Créer un compte",
+    "signOut": "Se déconnecter",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "name": "Nom complet",
+    "handle": "Pseudo",
+    "welcomeBack": "Bon retour",
+    "forgotPassword": "Mot de passe oublié ?",
+    "noAccount": "Nouveau ici ?",
+    "createAccount": "Créer un compte",
+    "haveAccount": "Vous avez déjà un compte ?"
+  },
+  "onboarding": {
+    "welcome": {
+      "eyebrow": "Séquence de démarrage",
+      "title": "Bienvenue sur WORK.",
+      "body": "Vous entrez dans le système d'exploitation de votre carrière.",
+      "guide": "Bonjour. Je suis WORK AI. Je vais tout vous montrer en moins de 2 minutes."
+    },
+    "skip": "Passer",
+    "navigate": "naviguer",
+    "launch": "Lancer dans WORK",
+    "missions": "Premières missions",
+    "completeProfile": "Compléter votre profil",
+    "buildCv": "Créer votre premier CV",
+    "joinCommunity": "Rejoindre une communauté",
+    "postFeed": "Publier dans le fil",
+    "generateRoadmap": "Générer une roadmap IA",
+    "chatAi": "Discuter avec l'IA"
+  },
+  "feed": {
+    "title": "Fil",
+    "compose": "Partagez quelque chose avec votre réseau…",
+    "post": "Publier",
+    "trending": "Tendances",
+    "forYou": "Pour vous",
+    "following": "Abonnements",
+    "newPosts": "{count, plural, =1 {1 nouvelle publication} other {# nouvelles publications}}"
+  },
+  "jobs": {
+    "title": "Emplois",
+    "search": "Rechercher des emplois, entreprises, compétences…",
+    "filters": "Filtres",
+    "remote": "Télétravail",
+    "level": "Expérience",
+    "region": "Région",
+    "skills": "Compétences",
+    "salary": "Salaire",
+    "apply": "Postuler",
+    "applied": "Postulé",
+    "save": "Sauvegarder",
+    "match": "{n}% de correspondance",
+    "openRoles": "{count, plural, =1 {1 poste ouvert} other {# postes ouverts}}"
+  },
+  "communities": {
+    "title": "Communautés",
+    "discover": "Découvrir",
+    "yourCommunities": "Vos communautés",
+    "create": "Créer une communauté",
+    "join": "Rejoindre",
+    "members": "{count, plural, =1 {1 membre} other {# membres}}"
+  },
+  "ai": {
+    "title": "WORK AI",
+    "subtitle": "Votre copilote de carrière",
+    "ask": "Demandez n'importe quoi à WORK AI…",
+    "thinking": "Réflexion en cours…",
+    "newChat": "Nouvelle discussion",
+    "stop": "Arrêter",
+    "send": "Envoyer",
+    "disclaimer": "WORK AI peut faire des erreurs. Vérifiez les informations importantes."
+  },
+  "settings": {
+    "title": "Paramètres",
+    "language": "Langue",
+    "languageHint": "Nous avons détecté la langue de votre navigateur. Modifiez-la à tout moment."
+  },
+  "notifications": {
+    "title": "Notifications",
+    "empty": "Vous êtes à jour.",
+    "markAllRead": "Tout marquer comme lu",
+    "archiveAll": "Tout archiver"
+  },
+  "errors": {
+    "generic": "Une erreur est survenue. Réessayez.",
+    "network": "Erreur réseau. Vérifiez votre connexion."
+  }
+}

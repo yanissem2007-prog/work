@@ -1,0 +1,137 @@
+{
+  "nav": {
+    "home": "Home",
+    "feed": "Feed",
+    "trending": "Trending",
+    "jobs": "Jobs",
+    "matches": "Matches",
+    "messages": "Messages",
+    "communities": "Communities",
+    "network": "Network",
+    "bookmarks": "Bookmarks",
+    "ai": "AI Studio",
+    "cvBuilder": "CV Builder",
+    "cvScore": "CV Score",
+    "interview": "Mock Interview",
+    "marketplace": "Marketplace",
+    "events": "Events",
+    "roadmaps": "Roadmaps",
+    "coach": "Career Coach",
+    "projects": "Project Ideas",
+    "stats": "Stats",
+    "profile": "Profile",
+    "settings": "Settings",
+    "search": "Search",
+    "notifications": "Notifications"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "back": "Back",
+    "next": "Next",
+    "loading": "Loading",
+    "submit": "Submit",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "search": "Search",
+    "follow": "Follow",
+    "following": "Following",
+    "message": "Message",
+    "apply": "Apply",
+    "share": "Share",
+    "more": "More",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "auth": {
+    "signIn": "Sign in",
+    "signUp": "Create account",
+    "signOut": "Sign out",
+    "email": "Email",
+    "password": "Password",
+    "name": "Full name",
+    "handle": "Handle",
+    "welcomeBack": "Welcome back",
+    "forgotPassword": "Forgot password?",
+    "noAccount": "New here?",
+    "createAccount": "Create an account",
+    "haveAccount": "Already have an account?"
+  },
+  "onboarding": {
+    "welcome": {
+      "eyebrow": "Boot sequence",
+      "title": "Welcome to WORK.",
+      "body": "You're entering the operating system for your career.",
+      "guide": "Hi. I'm WORK AI. I'll walk you through everything in under 2 minutes."
+    },
+    "skip": "Skip",
+    "navigate": "navigate",
+    "launch": "Launch into WORK",
+    "missions": "First missions",
+    "completeProfile": "Complete your profile",
+    "buildCv": "Build your first CV",
+    "joinCommunity": "Join a community",
+    "postFeed": "Post to the feed",
+    "generateRoadmap": "Generate an AI roadmap",
+    "chatAi": "Chat with the AI"
+  },
+  "feed": {
+    "title": "Feed",
+    "compose": "Share something with your network…",
+    "post": "Post",
+    "trending": "Trending",
+    "forYou": "For you",
+    "following": "Following",
+    "newPosts": "{count, plural, =1 {1 new post} other {# new posts}}"
+  },
+  "jobs": {
+    "title": "Jobs",
+    "search": "Search jobs, companies, skills…",
+    "filters": "Filters",
+    "remote": "Remote",
+    "level": "Experience",
+    "region": "Region",
+    "skills": "Skills",
+    "salary": "Salary",
+    "apply": "Apply now",
+    "applied": "Applied",
+    "save": "Save",
+    "match": "{n}% match",
+    "openRoles": "{count, plural, =1 {1 open role} other {# open roles}}"
+  },
+  "communities": {
+    "title": "Communities",
+    "discover": "Discover",
+    "yourCommunities": "Your communities",
+    "create": "Create community",
+    "join": "Join",
+    "members": "{count, plural, =1 {1 member} other {# members}}"
+  },
+  "ai": {
+    "title": "WORK AI",
+    "subtitle": "Your career copilot",
+    "ask": "Ask WORK AI anything…",
+    "thinking": "Thinking…",
+    "newChat": "New chat",
+    "stop": "Stop",
+    "send": "Send",
+    "disclaimer": "WORK AI may produce inaccuracies. Verify important info."
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "languageHint": "We detected your browser language. Change it any time."
+  },
+  "notifications": {
+    "title": "Notifications",
+    "empty": "You're all caught up.",
+    "markAllRead": "Mark all read",
+    "archiveAll": "Archive all"
+  },
+  "errors": {
+    "generic": "Something went wrong. Try again.",
+    "network": "Network error. Check your connection."
+  }
+}

@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import './tokens.css';
+
+html { scroll-behavior: smooth; }
+body { min-height: 100dvh; }
+
+/* Awwwards-grade focus ring — visible only on keyboard nav */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+  transition: outline-offset 150ms ease-out;
+}
+
+/* Premium scrollbar */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb {
+  background: color-mix(in oklch, var(--muted) 30%, transparent);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in oklch, var(--muted) 55%, transparent);
+  background-clip: padding-box;
+}
+
+/* Image rendering polish */
+img, video { max-width: 100%; height: auto; }
+
+/* Reduce motion: disable heavy animation but keep micro-interactions */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-aurora, .animate-pulse-glow, .animate-shimmer, .animate-float { animation: none !important; }
+}
+
+/* Used by typing dots / chat composer */
+@keyframes dot-bounce {
+  0%, 100% { transform: translateY(0); opacity: 0.5; }
+  50% { transform: translateY(-3px); opacity: 1; }
+}
+
+/* Premium hover lift utility */
+.hover-lift {
+  transition: transform 350ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 350ms ease;
+  will-change: transform;
+}
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 40px -18px color-mix(in oklch, var(--accent) 35%, transparent);
+}
+
+/* Print: hide chrome cleanly */
+@media print {
+  .no-print,
+  .cursor-follower,
+  [data-cursor="hide"] { display: none !important; }
+}
+
+/* iOS safe-area utility */
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+.safe-top { padding-top: env(safe-area-inset-top); }
