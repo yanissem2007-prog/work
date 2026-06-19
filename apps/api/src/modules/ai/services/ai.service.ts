@@ -3,8 +3,20 @@ import type { ChatCompletionMessageParam } from 'openai/resources/chat/completio
 import { openai, MODEL, isAIEnabled } from './openai';
 import { SYSTEM_PROMPT } from './prompts';
 import { tools, runTool } from '../tools';
+import { planLocalReply } from './localAssistant';
 import { UserModel } from '../../auth/auth.model';
 import { logger } from '../../../config/logger';
+
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+/** Stream text word-by-word so the built-in assistant feels like a live model. */
+async function streamText(write: (o: unknown) => void, text: string): Promise<void> {
+  const tokens = text.match(/\S+\s*|\s+/g) ?? [text];
+  for (const tok of tokens) {
+    write({ type: 'delta', value: tok });
+    await sleep(16);
+  }
+}
 
 export interface ChatInput {
   userId: string;
@@ -32,20 +44,37 @@ export async function streamChat(input: ChatInput, res: Response): Promise<void>
 
   const user = await UserModel.findById(input.userId).lean();
   const baseMessages: ChatCompletionMessageParam[] = [
-    { role: 'system', content: SYSTEM_PROMPT(user ?? {}, input.locale) },
+    { role: 'system', content: SYSTEM_PROMPT((user ?? {}) as any, input.locale) },
     ...input.messages.map((m) => ({ role: m.role, content: m.content } as ChatCompletionMessageParam))
   ];
 
-  // No OpenAI key — fallback to a deterministic stub that still streams.
+  // No OpenAI key — use the built-in career assistant. It detects intent,
+  // pulls real platform data via the tool layer, and streams a grounded reply
+  // plus a rich tool card. Fully functional without any external API.
   if (!isAIEnabled()) {
     const last = input.messages[input.messages.length - 1]?.content ?? '';
-    const reply = `Echo (AI stub — set OPENAI_API_KEY to enable real model): ${last.slice(0, 240)}`;
-    for (const chunk of reply.match(/.{1,12}/g) ?? []) {
-      write({ type: 'delta', value: chunk });
-      await new Promise((r) => setTimeout(r, 30));
+    try {
+      const plan = await planLocalReply(last, input.userId, input.locale ?? 'en');
+      await streamText(write, plan.intro);
+      if (plan.tool) {
+        let result: unknown = null;
+        try {
+          result = await runTool(plan.tool.name, plan.tool.args, { userId: input.userId });
+        } catch (e) {
+          logger.error(e, `local tool ${plan.tool.name} failed`);
+        }
+        if (result) write({ type: 'tool', name: plan.tool.name, result });
+      }
+      if (plan.closing) {
+        write({ type: 'delta', value: '\n\n' });
+        await streamText(write, plan.closing);
+      }
+    } catch (e) {
+      logger.error(e, 'local assistant failed');
+      write({ type: 'delta', value: 'Sorry — I hit a snag. Please try again.' });
     }
     write({ type: 'done' });
-    return res.end();
+    res.end(); return;
   }
 
   const client = openai()!;
@@ -87,7 +116,7 @@ export async function streamChat(input: ChatInput, res: Response): Promise<void>
     if (toolCalls.length === 0) {
       // Pure text turn — done.
       write({ type: 'done' });
-      return res.end();
+      res.end(); return;
     }
 
     // Persist assistant turn (text + tool_calls) into the conversation
@@ -121,5 +150,5 @@ export async function streamChat(input: ChatInput, res: Response): Promise<void>
   }
 
   write({ type: 'done' });
-  return res.end();
+  res.end();
 }

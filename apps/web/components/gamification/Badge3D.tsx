@@ -1,9 +1,10 @@
 'use client';
 import { motion } from 'framer-motion';
 import { Sparkles, FileText, Gauge, Briefcase, Mic, Users, Crown, Award, Trophy, Flame, Zap, UserPlus } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-const ICONS: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
+const ICONS: Record<string, LucideIcon> = {
   Sparkles, FileText, Gauge, Briefcase, Mic, Users, Crown, Award, Trophy, Flame, Zap, UserPlus
 };
 

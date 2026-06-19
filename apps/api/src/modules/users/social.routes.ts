@@ -128,5 +128,13 @@ socialRouter.get('/suggestions', authRequired, asyncHandler(async (req, res) => 
     .select('handle name avatar headline role')
     .sort({ loginCount: -1, createdAt: -1 })
     .limit(6).lean();
-  return ok(res, users);
+  // Normalise to `id` (the shape the client `User` type expects).
+  return ok(res, users.map((u) => ({
+    id: String(u._id),
+    handle: u.handle,
+    name: u.name,
+    avatar: u.avatar ?? null,
+    headline: u.headline ?? null,
+    role: u.role
+  })));
 }));

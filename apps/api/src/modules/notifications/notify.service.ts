@@ -39,7 +39,7 @@ export async function notify(input: NotifyInput): Promise<void> {
 
     const prefs = await NotificationPrefsModel.findOne({ userId: input.userId }).lean();
     if (prefs?.mutedUntil && prefs.mutedUntil > new Date()) return;
-    if (prefs?.push && prefs.push.get(input.type) === false) return;
+    if (prefs?.push && (prefs.push as Record<string, boolean>)[input.type] === false) return;
 
     const category = CATEGORY_OF[input.type] ?? 'system';
     const groupable = input.groupable ?? defaultGroupable(input.type);

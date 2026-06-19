@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { Flame, Home, UserPlus2 } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { api } from '@/lib/api';
 import { useInfiniteFeed } from '@/hooks/useInfiniteFeed';
 import { useSocket } from '@/providers/SocketProvider';
@@ -19,7 +20,7 @@ import type { Post, User } from '@work/types';
 
 type Scope = 'home' | 'trending' | 'following';
 
-const TABS: { id: Scope; label: string; icon: React.ComponentType<{ size?: number }> }[] = [
+const TABS: { id: Scope; label: string; icon: LucideIcon }[] = [
   { id: 'home', label: 'For you', icon: Home },
   { id: 'trending', label: 'Trending', icon: Flame },
   { id: 'following', label: 'Following', icon: UserPlus2 }
@@ -63,7 +64,7 @@ export default function FeedPage() {
     <div className="grid lg:grid-cols-[1fr_320px] gap-6">
       <div className="space-y-4 relative">
         {/* Tabs */}
-        <div className="sticky top-0 z-10 -mx-4 sm:mx-0 px-4 sm:px-0 backdrop-blur-md bg-bg/70 border-b border-border">
+        <div className="sticky top-14 z-10 -mx-4 sm:mx-0 px-4 sm:px-0 backdrop-blur-md bg-bg/70 border-b border-border">
           <div className="flex gap-1 py-2">
             {TABS.map((t) => {
               const active = scope === t.id;

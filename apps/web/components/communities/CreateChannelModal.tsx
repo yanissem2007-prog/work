@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { Hash, Megaphone, BookOpen, Calendar } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import { Modal } from '@/components/ui/Modal';
 import { Input } from '@/components/ui/Input';
@@ -9,7 +10,7 @@ import { api } from '@/lib/api';
 import type { ChannelType } from '@work/types';
 import { cn } from '@/lib/utils';
 
-const TYPES: { id: ChannelType; label: string; desc: string; icon: React.ComponentType<{ size?: number }> }[] = [
+const TYPES: { id: ChannelType; label: string; desc: string; icon: LucideIcon }[] = [
   { id: 'text', label: 'Text', desc: 'Free-form conversation', icon: Hash },
   { id: 'announcement', label: 'Announcement', desc: 'Read-only for members', icon: Megaphone },
   { id: 'resource', label: 'Resources', desc: 'Links, docs, references', icon: BookOpen },

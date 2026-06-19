@@ -96,7 +96,7 @@ export function NotificationsDropdown() {
                 className="text-2xs text-accent hover:underline inline-flex items-center gap-1">
                 <CheckCheck size={11} /> Mark read
               </button>
-              <Link href="/settings/notifications" onClick={() => setOpen(false)}
+              <Link href="/settings" onClick={() => setOpen(false)}
                 className="size-7 grid place-items-center rounded-full hover:bg-surface text-muted">
                 <SettingsIcon size={13} />
               </Link>

@@ -14,7 +14,7 @@ import { useAuthStore } from '@/stores/authStore';
 export default function LoginPage() {
   const router = useRouter();
   const search = useSearchParams();
-  const next = search.get('next') ?? '/feed';
+  const next = search.get('next') ?? '/home';
   const setUser = useAuthStore((s) => s.setUser);
   const setToken = useAuthStore((s) => s.setAccessToken);
 
@@ -22,21 +22,30 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // Toggle OTP on/off via env. In dev it's off by default → instant login.
+  const otpEnabled = process.env.NEXT_PUBLIC_OTP_LOGIN === 'true';
+
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
     try {
-      // Step 1: credentials → OTP sent
-      const { data } = await api.post('/auth/otp/login/start', { email, password });
-      const d = data.data;
-      const params = new URLSearchParams({
-        uid: d.userId,
-        e: d.emailMasked,
-        exp: new Date(d.expiresAt).toISOString(),
-        cd: String(d.cooldownSec),
-        next
-      });
-      router.push(`/verify-otp?${params.toString()}`);
+      if (otpEnabled) {
+        // Two-step: credentials → email OTP
+        const { data } = await api.post('/auth/otp/login/start', { email, password });
+        const d = data.data;
+        const params = new URLSearchParams({
+          uid: d.userId, e: d.emailMasked,
+          exp: new Date(d.expiresAt).toISOString(),
+          cd: String(d.cooldownSec), next
+        });
+        router.push(`/verify-otp?${params.toString()}`);
+      } else {
+        // Direct login (dev): email + password → tokens immediately
+        const { data } = await api.post('/auth/login', { email, password });
+        setToken(data.data.accessToken);
+        setUser(data.data.user);
+        router.push(next);
+      }
     } catch (e: any) {
       toast.error(e?.response?.data?.error?.message ?? 'Invalid credentials');
     } finally {

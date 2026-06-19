@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AlertTriangle, AlertCircle, Info, FileText, ArrowRight, Sparkles, Award, BookOpen, Briefcase, GraduationCap, MapPin, Globe2 } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import { useAuthStore } from '@/stores/authStore';
 import { Button } from '@/components/ui/Button';
@@ -296,7 +297,7 @@ function Section({ title, eyebrow, children }: { title: string; eyebrow?: string
 }
 
 function RecBlock({ icon: Icon, title, items, className }:
-  { icon: React.ComponentType<{ size?: number; className?: string }>; title: string; items: string[]; className?: string }) {
+  { icon: LucideIcon; title: string; items: string[]; className?: string }) {
   return (
     <Card variant="glass" className={cn('h-full', className)}>
       <div className="flex items-center gap-2 mb-2">

@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Briefcase, Lightbulb, MessageCircleQuestion, FilePenLine, UserCog, MapPin, Sparkles } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { Badge } from '@/components/ui/Badge';
 
 interface Props { name: string; result: unknown }
@@ -24,7 +25,7 @@ export function ToolResult({ name, result }: Props) {
   );
 }
 
-function Header({ icon: Icon, label }: { icon: React.ComponentType<{ size?: number }>; label: string }) {
+function Header({ icon: Icon, label }: { icon: LucideIcon; label: string }) {
   return (
     <p className="text-2xs uppercase tracking-caps text-muted mb-2 flex items-center gap-1.5">
       <Icon size={11} /> {label}

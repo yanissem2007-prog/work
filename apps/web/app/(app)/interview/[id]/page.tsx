@@ -1,5 +1,6 @@
 'use client';
-import { use, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Mic, MicOff, SkipForward, Send, ArrowLeft, RotateCcw, Trophy, Sparkles, TrendingUp, AlertTriangle, Lightbulb } from 'lucide-react';
@@ -40,8 +41,8 @@ const DIMENSIONS = [
   { key: 'clarity',    label: 'Clarity' }
 ] as const;
 
-export default function InterviewSessionPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params);
+export default function InterviewSessionPage() {
+  const { id } = useParams();
   const qc = useQueryClient();
   const speech = useSpeechRecognition();
   const taRef = useRef<HTMLTextAreaElement>(null);

@@ -1,6 +1,6 @@
 'use client';
-import { use, useEffect, useMemo, useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useRouter, useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { Reorder, AnimatePresence, motion } from 'framer-motion';
 import { ArrowLeft, Check, Cloud, Plus, Eye, Printer, Share2, Sparkles, GripVertical, Loader2 } from 'lucide-react';
@@ -34,8 +34,8 @@ const ADDABLE: { type: CvSectionType; label: string }[] = [
   { type: 'links', label: 'Links' }
 ];
 
-export default function CvEditorPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params);
+export default function CvEditorPage() {
+  const { id } = useParams();
   const router = useRouter();
 
   const { data: initial, isLoading } = useQuery<Cv>({

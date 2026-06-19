@@ -1,5 +1,6 @@
 'use client';
-import { use } from 'react';
+import {  } from 'react';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion, useScroll, useTransform } from 'framer-motion';
@@ -35,8 +36,8 @@ interface Roadmap {
   progress: { stepsTotal: number; stepsDone: number };
 }
 
-export default function RoadmapPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params);
+export default function RoadmapPage() {
+  const { id } = useParams();
   const qc = useQueryClient();
 
   const { data: rm, isLoading } = useQuery<Roadmap>({

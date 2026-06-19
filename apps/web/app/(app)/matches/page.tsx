@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { Sparkles, RotateCcw, TrendingUp, Briefcase, Lightbulb } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { api } from '@/lib/api';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
@@ -132,7 +133,7 @@ export default function MatchesPage() {
 }
 
 function Stat({ icon: Icon, label, value, tone }:
-  { icon: React.ComponentType<{ size?: number }>; label: string; value: string; tone: string }) {
+  { icon: LucideIcon; label: string; value: string; tone: string }) {
   return (
     <Card variant="glass" className="flex items-center gap-3">
       <div className="size-9 rounded-xl grid place-items-center shadow-glow"

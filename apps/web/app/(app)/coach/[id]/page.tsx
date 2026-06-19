@@ -1,5 +1,6 @@
 'use client';
-import { use, useState } from 'react';
+import { useState } from 'react';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -24,8 +25,8 @@ interface Session {
   checkIns: CheckIn[];
 }
 
-export default function CoachSessionPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params);
+export default function CoachSessionPage() {
+  const { id } = useParams<{ id: string }>();
   const qc = useQueryClient();
 
   const { data: session, isLoading } = useQuery<Session>({

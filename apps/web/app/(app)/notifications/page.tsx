@@ -83,7 +83,7 @@ export default function NotificationsPage() {
         </div>
         <div className="flex gap-2">
           <Button variant="glass" size="sm"
-            onClick={() => markRead.mutate()} loading={markRead.isPending}>
+            onClick={() => markRead.mutate(undefined)} loading={markRead.isPending}>
             <CheckCheck size={13} /> Mark all read
           </Button>
           <Button variant="glass" size="sm"

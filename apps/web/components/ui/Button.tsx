@@ -55,7 +55,6 @@ export interface ButtonProps
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild, magnetic, loading, shine = true, children, ...props }, ref) => {
-    const Comp = asChild ? Slot : 'button';
     const innerRef = useRef<HTMLButtonElement | null>(null);
 
     function onMove(e: React.MouseEvent<HTMLButtonElement>) {
@@ -72,17 +71,37 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       el.style.transform = '';
     }
 
+    const setRef = (node: HTMLButtonElement | null) => {
+      innerRef.current = node;
+      if (typeof ref === 'function') ref(node);
+      else if (ref) (ref as React.MutableRefObject<HTMLButtonElement | null>).current = node;
+    };
+
+    const classes = cn(buttonVariants({ variant, size }), shine && 'shine', className);
+
+    // asChild: Radix Slot requires a SINGLE element child. Pass children
+    // straight through (the caller provides one element, e.g. <Link>).
+    if (asChild) {
+      return (
+        <Slot
+          ref={setRef as never}
+          onMouseMove={onMove}
+          onMouseLeave={onLeave}
+          className={classes}
+          {...props}
+        >
+          {children}
+        </Slot>
+      );
+    }
+
     return (
-      <Comp
-        ref={(node) => {
-          innerRef.current = node as HTMLButtonElement;
-          if (typeof ref === 'function') ref(node as HTMLButtonElement);
-          else if (ref) (ref as React.MutableRefObject<HTMLButtonElement | null>).current = node as HTMLButtonElement;
-        }}
+      <button
+        ref={setRef}
         onMouseMove={onMove}
         onMouseLeave={onLeave}
         disabled={loading || props.disabled}
-        className={cn(buttonVariants({ variant, size }), shine && 'shine', className)}
+        className={classes}
         {...props}
       >
         {loading && (
@@ -95,7 +114,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         <span className={cn('inline-flex items-center gap-2', loading && 'opacity-0')}>
           {children}
         </span>
-      </Comp>
+      </button>
     );
   }
 );

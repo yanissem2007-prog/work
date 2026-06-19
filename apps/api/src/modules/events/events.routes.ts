@@ -216,7 +216,7 @@ eventRouter.post('/:id/rsvp', authRequired, asyncHandler(async (req, res) => {
 
   // Capacity handling for "going"
   let final = status;
-  if (status === 'going' && event.capacity && event.counts.going >= event.capacity) {
+  if (status === 'going' && event.capacity && (event.counts?.going ?? 0) >= event.capacity) {
     final = 'waitlist';
   }
 
@@ -242,7 +242,7 @@ eventRouter.delete('/:id/rsvp', authRequired, asyncHandler(async (req, res) => {
     await EventModel.updateOne({ _id: req.params.id }, { $inc: { [`counts.${existing.status}`]: -1 } });
     // Promote first waitlist member to going if there's room
     const ev = await EventModel.findById(req.params.id).lean();
-    if (ev && ev.capacity && ev.counts.going < ev.capacity && ev.counts.waitlist > 0) {
+    if (ev && ev.capacity && (ev.counts?.going ?? 0) < ev.capacity && (ev.counts?.waitlist ?? 0) > 0) {
       const next = await RsvpModel.findOneAndUpdate(
         { eventId: req.params.id, status: 'waitlist' },
         { $set: { status: 'going' } },

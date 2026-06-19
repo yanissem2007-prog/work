@@ -1,5 +1,6 @@
 'use client';
-import { use, useState } from 'react';
+import { useState } from 'react';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
@@ -15,8 +16,8 @@ import { ApplyDrawer } from '@/components/jobs/ApplyDrawer';
 import { MatchRing } from '@/components/match/MatchRing';
 import { formatRelative } from '@/lib/utils';
 
-export default function JobDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params);
+export default function JobDetailPage() {
+  const { id } = useParams();
   const { user } = useAuth();
   const qc = useQueryClient();
   const [applyOpen, setApplyOpen] = useState(false);

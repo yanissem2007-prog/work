@@ -6,7 +6,7 @@ import { Home, Briefcase, MessageSquare, Sparkles, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const DOCK = [
-  { href: '/feed', label: 'Feed', icon: Home },
+  { href: '/home', label: 'Home', icon: Home },
   { href: '/jobs', label: 'Jobs', icon: Briefcase },
   { href: '/ai', label: 'AI', icon: Sparkles, hero: true },
   { href: '/messages', label: 'Chat', icon: MessageSquare },

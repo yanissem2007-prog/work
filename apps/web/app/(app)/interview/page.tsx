@@ -1,4 +1,5 @@
 'use client';
+import type { LucideIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
@@ -19,7 +20,7 @@ import { cn } from '@/lib/utils';
 type Cat = 'frontend' | 'backend' | 'design' | 'hr' | 'marketing' | 'communication';
 type Level = 'intern' | 'entry' | 'mid' | 'senior' | 'staff';
 
-const CATEGORIES: { id: Cat; label: string; desc: string; icon: React.ComponentType<{ size?: number }>; tone: string }[] = [
+const CATEGORIES: { id: Cat; label: string; desc: string; icon: LucideIcon; tone: string }[] = [
   { id: 'frontend',      label: 'Frontend',      desc: 'React, performance, design systems',     icon: Code2,      tone: 'oklch(72% 0.2 264)' },
   { id: 'backend',       label: 'Backend',       desc: 'APIs, scaling, system design',           icon: Server,     tone: 'oklch(78% 0.18 200)' },
   { id: 'design',        label: 'Design',        desc: 'Craft, process, critique',               icon: Palette,    tone: 'oklch(70% 0.24 340)' },

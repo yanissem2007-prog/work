@@ -29,13 +29,14 @@ authRouter.post('/resend-verification', authRequired, tight, asyncHandler(authCo
 
 authRouter.post('/forgot-password', tight, asyncHandler(authController.forgotPassword));
 authRouter.post('/reset-password', tight, asyncHandler(authController.resetPassword));
+authRouter.post('/change-password', authRequired, tight, asyncHandler(authController.changePassword));
 
 // ─── OAuth ───
 const oauthRedirect = async (res: any, user: any) => {
   const { accessToken, refreshToken } = await authService.issueTokens(user.id, user.role);
   res.cookie('work_rt', refreshToken, {
-    httpOnly: true, secure: true, sameSite: 'lax',
-    path: '/api/v1/auth', maxAge: 7 * 24 * 60 * 60 * 1000
+    httpOnly: true, secure: env.NODE_ENV === 'production', sameSite: 'lax',
+    path: '/', maxAge: 7 * 24 * 60 * 60 * 1000
   });
   const target = `${env.CORS_ORIGIN.split(',')[0]}/oauth/callback#token=${accessToken}`;
   res.redirect(target);

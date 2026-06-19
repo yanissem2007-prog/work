@@ -62,7 +62,7 @@ interviewRouter.post('/:id/answer', authRequired, asyncHandler(async (req, res) 
 
   // Score the answer
   const feedback = await interviewService.scoreAnswer({
-    category: session.category as any, level: session.level as any, jobTitle: session.jobTitle,
+    category: session.category as any, level: session.level as any, jobTitle: session.jobTitle ?? undefined,
     question: lastTurn.question, answer
   });
   lastTurn.answer = answer;
@@ -75,7 +75,7 @@ interviewRouter.post('/:id/answer', authRequired, asyncHandler(async (req, res) 
 
   if (!isLast) {
     const next = await interviewService.nextQuestion({
-      category: session.category as any, level: session.level as any, jobTitle: session.jobTitle,
+      category: session.category as any, level: session.level as any, jobTitle: session.jobTitle ?? undefined,
       skills: session.skillsContext as string[],
       previous: session.turns.map((t) => ({ question: t.question, answer: t.answer ?? undefined }))
     });
@@ -83,7 +83,7 @@ interviewRouter.post('/:id/answer', authRequired, asyncHandler(async (req, res) 
     nextQuestion = next;
   } else {
     const report = await interviewService.finalize({
-      category: session.category as any, level: session.level as any, jobTitle: session.jobTitle,
+      category: session.category as any, level: session.level as any, jobTitle: session.jobTitle ?? undefined,
       turns: session.turns.map((t) => ({
         question: t.question, answer: t.answer ?? undefined, feedback: t.feedback as any
       }))
@@ -111,7 +111,7 @@ interviewRouter.post('/:id/skip', authRequired, asyncHandler(async (req, res) =>
     session.completedAt = new Date();
   } else {
     const next = await interviewService.nextQuestion({
-      category: session.category as any, level: session.level as any, jobTitle: session.jobTitle,
+      category: session.category as any, level: session.level as any, jobTitle: session.jobTitle ?? undefined,
       skills: session.skillsContext as string[],
       previous: session.turns.map((t) => ({ question: t.question, answer: t.answer ?? undefined }))
     });

@@ -1,8 +1,10 @@
 import { Router } from 'express';
 import { z } from 'zod';
+import mongoose from 'mongoose';
 import { authRequired } from '../../middleware/auth';
 import { asyncHandler } from '../../utils/asyncHandler';
 import { ok, created } from '../../utils/response';
+import { HttpError } from '../../middleware/error';
 import { postsService } from './posts.service';
 import { commentsRouter } from './comments.routes';
 import { CommentModel } from './comments.model';
@@ -62,6 +64,18 @@ postRouter.get('/user/:handle', authRequired, asyncHandler(async (req, res) => {
   if (!u) return ok(res, []);
   const result = await postsService.feed({ scope: 'user', authorId: String(u._id), userId: req.user!.sub });
   return ok(res, result.items, { cursor: result.nextCursor ?? undefined });
+}));
+
+// Single post permalink (must stay after the literal GET routes above so
+// '/feed', '/trending', etc. are matched before the dynamic ':id').
+postRouter.get('/:id', authRequired, asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  if (!mongoose.isValidObjectId(id)) throw new HttpError(404, 'NOT_FOUND', 'Post');
+  const post = await PostModel.findOne({ _id: id, deletedAt: null }).lean();
+  if (!post) throw new HttpError(404, 'NOT_FOUND', 'Post');
+  void PostModel.updateOne({ _id: id }, { $inc: { 'stats.views': 1 } }).catch(() => {});
+  const [hydrated] = await postsService.hydrate([post], req.user!.sub);
+  return ok(res, hydrated);
 }));
 
 postRouter.post('/', authRequired, asyncHandler(async (req, res) => {

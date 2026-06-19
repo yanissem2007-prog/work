@@ -35,6 +35,7 @@ export function Particles({
     const dots: { x: number; y: number; vx: number; vy: number; r: number }[] = [];
 
     function resize() {
+      if (!canvas) return;
       const r = canvas.getBoundingClientRect();
       w = canvas.width = r.width * dpr;
       h = canvas.height = r.height * dpr;
@@ -55,7 +56,7 @@ export function Particles({
       }
     }
     function tick() {
-      if (!running) return;
+      if (!running || !ctx) return;
       ctx.clearRect(0, 0, w, h);
       ctx.globalCompositeOperation = 'lighter';
       for (const d of dots) {

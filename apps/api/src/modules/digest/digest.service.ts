@@ -105,7 +105,7 @@ export async function sendDigestForUser(userId: string): Promise<boolean> {
 
   const prefs = await NotificationPrefsModel.findOne({ userId }).lean();
   if (prefs?.mutedUntil && new Date(prefs.mutedUntil) > new Date()) return false;
-  if (prefs?.email && prefs.email.get('digest') === false) return false;
+  if (prefs?.email && (prefs.email as Record<string, boolean>)['digest'] === false) return false;
 
   const payload = await buildPayload(userId, user.name ?? 'there');
   if (!payload) return false;

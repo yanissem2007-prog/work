@@ -1,4 +1,5 @@
 'use client';
+import type { LucideIcon } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query';
@@ -16,7 +17,7 @@ import { cn } from '@/lib/utils';
 
 type Cat = 'design' | 'development' | 'editing' | 'writing' | 'marketing';
 
-const CATEGORIES: { id: Cat; label: string; icon: React.ComponentType<{ size?: number }>; tone: string }[] = [
+const CATEGORIES: { id: Cat; label: string; icon: LucideIcon; tone: string }[] = [
   { id: 'design',      label: 'Design',       icon: Palette,   tone: 'oklch(70% 0.24 340)' },
   { id: 'development', label: 'Development',  icon: Code2,     tone: 'oklch(72% 0.2 264)' },
   { id: 'editing',     label: 'Editing',      icon: Scissors,  tone: 'oklch(78% 0.18 200)' },

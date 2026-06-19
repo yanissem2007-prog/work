@@ -4,6 +4,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { UserPlus, UserCheck, X, Users } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { api } from '@/lib/api';
 import { Avatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
@@ -165,7 +166,7 @@ export default function FriendsPage() {
   );
 }
 
-function Empty({ icon: Icon, text }: { icon: React.ComponentType<{ size?: number }>; text: string }) {
+function Empty({ icon: Icon, text }: { icon: LucideIcon; text: string }) {
   return (
     <div className="glass rounded-2xl py-16 text-center">
       <div className="mx-auto size-14 rounded-2xl bg-surface-2 grid place-items-center"><Icon size={20} /></div>

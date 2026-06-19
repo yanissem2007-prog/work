@@ -57,7 +57,7 @@ export async function awardXp(
     const last = profile.streak?.lastActiveDay;
     if (last !== today) {
       const yesterday = dayKey(new Date(Date.now() - 86_400_000));
-      const next = last === yesterday ? (profile.streak.current ?? 0) + 1 : 1;
+      const next = last === yesterday ? (profile.streak?.current ?? 0) + 1 : 1;
       profile.streak = {
         current: next,
         best: Math.max(profile.streak?.best ?? 0, next),
@@ -76,8 +76,8 @@ export async function awardXp(
       level: profile.level,
       totalXp: profile.totalXp,
       counts: Object.fromEntries(profile.counts ?? new Map()) as any,
-      bestStreak: profile.streak.best ?? 0,
-      currentStreak: profile.streak.current ?? 0,
+      bestStreak: profile.streak?.best ?? 0,
+      currentStreak: profile.streak?.current ?? 0,
       interviews: profile.interviews ?? { count: 0, bestScore: 0 }
     } as any;
     const owned = new Set((profile.badges ?? []).map((b: any) => b.id));

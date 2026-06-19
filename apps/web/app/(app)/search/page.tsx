@@ -1,4 +1,5 @@
 'use client';
+import type { LucideIcon } from 'lucide-react';
 import { Suspense, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
@@ -18,7 +19,7 @@ import { cn } from '@/lib/utils';
 
 type Type = 'jobs' | 'users' | 'companies' | 'communities' | 'posts' | 'events' | 'gigs';
 
-const TYPES: { id: Type; label: string; icon: React.ComponentType<{ size?: number }>; tone: string }[] = [
+const TYPES: { id: Type; label: string; icon: LucideIcon; tone: string }[] = [
   { id: 'jobs',        label: 'Jobs',        icon: Briefcase,      tone: 'oklch(78% 0.18 200)' },
   { id: 'users',       label: 'People',      icon: UserIcon,       tone: 'oklch(72% 0.2 264)' },
   { id: 'companies',   label: 'Companies',   icon: Building2,      tone: 'oklch(78% 0.22 142)' },
@@ -194,7 +195,7 @@ function SearchInner() {
 }
 
 function Chip({ label, active, onClick, icon: Icon }:
-  { label: string; active: boolean; onClick: () => void; icon?: React.ComponentType<{ size?: number }> }) {
+  { label: string; active: boolean; onClick: () => void; icon?: LucideIcon }) {
   return (
     <button onClick={onClick}
       className={cn(

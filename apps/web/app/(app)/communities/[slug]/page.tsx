@@ -1,5 +1,5 @@
 'use client';
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Users2 } from 'lucide-react';
 import { api } from '@/lib/api';
@@ -12,10 +12,10 @@ import { CreateChannelModal } from '@/components/communities/CreateChannelModal'
 import { CreateCommunityModal } from '@/components/communities/CreateCommunityModal';
 import { Button } from '@/components/ui/Button';
 import { Spinner } from '@/components/ui/Spinner';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 
-export default function CommunityPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = use(params);
+export default function CommunityPage() {
+  const { slug } = useParams<{ slug: string }>();
   const router = useRouter();
   const qc = useQueryClient();
   const [activeChannelId, setActiveChannelId] = useState<string | null>(null);

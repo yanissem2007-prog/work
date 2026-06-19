@@ -12,7 +12,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     defaultOptions: { queries: { staleTime: 30_000, refetchOnWindowFocus: false } }
   }));
   return (
-    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+    <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
       <QueryClientProvider client={qc}>
         <LenisProvider>
           <SocketProvider>

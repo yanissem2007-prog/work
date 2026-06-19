@@ -1,4 +1,5 @@
 'use client';
+import type { LucideIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
@@ -20,7 +21,7 @@ import { cn } from '@/lib/utils';
 type Kind = 'portfolio' | 'github' | 'startup' | 'challenge' | 'realworld';
 type Status = 'suggested' | 'saved' | 'in_progress' | 'built';
 
-const KINDS: { id: Kind; label: string; icon: React.ComponentType<{ size?: number }>; tone: string }[] = [
+const KINDS: { id: Kind; label: string; icon: LucideIcon; tone: string }[] = [
   { id: 'portfolio', label: 'Portfolio',    icon: FolderGit2, tone: 'oklch(72% 0.2 264)' },
   { id: 'github',    label: 'Open-source',  icon: Github,     tone: 'oklch(78% 0.06 0)' },
   { id: 'startup',   label: 'Startup',      icon: Rocket,     tone: 'oklch(70% 0.24 340)' },

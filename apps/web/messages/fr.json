@@ -22,7 +22,10 @@
     "profile": "Profil",
     "settings": "Paramètres",
     "search": "Rechercher",
-    "notifications": "Notifications"
+    "notifications": "Notifications",
+    "sectionCareer": "Carrière",
+    "sectionNetwork": "Réseau",
+    "sectionYou": "Vous"
   },
   "common": {
     "save": "Enregistrer",

@@ -29,13 +29,17 @@ const LoginDto = z.object({ email: z.string().email(), password: z.string() });
 const EmailDto = z.object({ email: z.string().email() });
 const TokenDto = z.object({ token: z.string().min(8) });
 const ResetDto = z.object({ token: z.string().min(8), password: z.string().min(8).max(120) });
+const ChangePasswordDto = z.object({ currentPassword: z.string().min(1), newPassword: z.string().min(8).max(120) });
 
 const REFRESH_COOKIE = 'work_rt';
+// Path '/' so the Next.js middleware (running on the web origin) can see the
+// cookie on protected routes like /home — not just on /api/v1/auth. `secure`
+// is disabled in dev so the cookie is stored over plain http://localhost.
 const cookieOpts = {
   httpOnly: true,
-  secure: true,
+  secure: process.env.NODE_ENV === 'production',
   sameSite: 'lax' as const,
-  path: '/api/v1/auth',
+  path: '/',
   maxAge: 7 * 24 * 60 * 60 * 1000
 };
 
@@ -97,6 +101,12 @@ export const authController = {
   async resetPassword(req: Request, res: Response) {
     const { token, password } = ResetDto.parse(req.body);
     await authService.resetPassword(token, password);
+    return ok(res, { ok: true });
+  },
+
+  async changePassword(req: Request, res: Response) {
+    const { currentPassword, newPassword } = ChangePasswordDto.parse(req.body);
+    await authService.changePassword(req.user!.sub, currentPassword, newPassword);
     return ok(res, { ok: true });
   }
 };

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { Calendar, Plus, Sparkles, GraduationCap, Code2, Users2, Mic, Briefcase } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { api } from '@/lib/api';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -14,7 +15,7 @@ import { cn } from '@/lib/utils';
 type Type = 'workshop' | 'hackathon' | 'conference' | 'meetup' | 'webinar';
 type Scope = 'upcoming' | 'live' | 'past';
 
-const TYPES: { id: Type; label: string; icon: React.ComponentType<{ size?: number }>; tone: string }[] = [
+const TYPES: { id: Type; label: string; icon: LucideIcon; tone: string }[] = [
   { id: 'hackathon',  label: 'Hackathons',  icon: Code2,     tone: 'oklch(70% 0.24 340)' },
   { id: 'workshop',   label: 'Workshops',   icon: Sparkles,  tone: 'oklch(78% 0.18 200)' },
   { id: 'conference', label: 'Conferences', icon: Briefcase, tone: 'oklch(72% 0.2 264)' },

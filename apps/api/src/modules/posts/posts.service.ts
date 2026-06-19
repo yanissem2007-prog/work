@@ -76,7 +76,7 @@ export const postsService = {
     const myFollows = await FollowModel.find({ followerId: userId }).select('followingId').lean();
     const myIds = myFollows.map((f) => String(f.followingId));
 
-    let posts;
+    let posts: any[] = [];
     if (myIds.length) {
       const fof = await FollowModel.find({ followerId: { $in: myIds } }).select('followingId').lean();
       const ids = [...new Set(fof.map((f) => String(f.followingId)))].filter((id) => id !== userId && !myIds.includes(id));

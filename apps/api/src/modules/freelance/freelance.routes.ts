@@ -31,7 +31,7 @@ freelanceRouter.get('/gigs', asyncHandler(async (req, res) => {
     { 'rating.avg': -1 as const, 'stats.orders': -1 as const, createdAt: -1 as const };
   const limit = Math.min(40, Number(req.query.limit ?? 20));
 
-  const gigs = await GigModel.find(filter).sort(sort).limit(limit).lean();
+  const gigs = await GigModel.find(filter).sort(sort as any).limit(limit).lean();
   const sellers = await UserModel.find({ _id: { $in: gigs.map((g) => g.sellerId) } })
     .select('handle name avatar headline').lean();
   const byId = new Map(sellers.map((s) => [String(s._id), s]));

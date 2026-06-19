@@ -7,6 +7,8 @@
     "dev": "concurrently -n api,web -c magenta,cyan \"npm run dev -w @work/api\" \"npm run dev -w @work/web\"",
     "dev:web": "npm run dev -w @work/web",
     "dev:api": "npm run dev -w @work/api",
+    "seed": "npm run seed -w @work/api",
+    "seed:reset": "npm run seed:reset -w @work/api",
     "build": "npm run build --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present"

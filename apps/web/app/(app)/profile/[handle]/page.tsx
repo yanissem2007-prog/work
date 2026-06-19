@@ -1,8 +1,10 @@
 'use client';
-import { useState, use } from 'react';
+import { useState } from 'react';
+import { useParams } from 'next/navigation';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { MapPin, Link as LinkIcon, Briefcase, GraduationCap, Image as ImageIcon, FileText, CheckCircle2, MessageSquare, UserPlus, UserCheck } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import type { Post, Profile, User } from '@work/types';
 import { api } from '@/lib/api';
 import { Avatar } from '@/components/ui/Avatar';
@@ -25,8 +27,8 @@ const TABS: { id: Tab; label: string }[] = [
   { id: 'cv', label: 'CV' }
 ];
 
-export default function ProfilePage({ params }: { params: Promise<{ handle: string }> }) {
-  const { handle } = use(params);
+export default function ProfilePage() {
+  const { handle } = useParams();
   const me = useAuthStore((s) => s.user);
   const qc = useQueryClient();
   const [tab, setTab] = useState<Tab>('posts');
@@ -254,7 +256,7 @@ export default function ProfilePage({ params }: { params: Promise<{ handle: stri
   );
 }
 
-function Empty({ icon: Icon, text }: { icon: React.ComponentType<{ size?: number }>; text: string }) {
+function Empty({ icon: Icon, text }: { icon: LucideIcon; text: string }) {
   return (
     <div className="text-center py-10 text-muted">
       <Icon size={28} />

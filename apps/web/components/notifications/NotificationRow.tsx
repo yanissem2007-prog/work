@@ -1,4 +1,5 @@
 'use client';
+import type { LucideIcon } from 'lucide-react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import {
@@ -8,7 +9,7 @@ import {
 import { Avatar } from '@/components/ui/Avatar';
 import { formatRelative, cn } from '@/lib/utils';
 
-const ICON: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
+const ICON: Record<string, LucideIcon> = {
   like: Heart,
   comment: MessageCircle,
   follow: UserPlus,

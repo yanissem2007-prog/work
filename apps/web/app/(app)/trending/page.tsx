@@ -1,4 +1,5 @@
 'use client';
+import type { LucideIcon } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -132,7 +133,7 @@ function LivePill({ lastUpdate }: { lastUpdate: string }) {
 }
 
 function Stat({ icon: Icon, label, value, tone }:
-  { icon: React.ComponentType<{ size?: number }>; label: string; value: number; tone: string }) {
+  { icon: LucideIcon; label: string; value: number; tone: string }) {
   const display = useAnimatedCounter(value);
   return (
     <div className="rounded-2xl border border-border bg-bg-elev/50 p-4 flex items-center gap-3">
@@ -153,7 +154,7 @@ function Stat({ icon: Icon, label, value, tone }:
 function SectionCard({
   icon: Icon, title, subtitle, tone, children, className
 }: {
-  icon: React.ComponentType<{ size?: number; className?: string }>;
+  icon: LucideIcon;
   title: string; subtitle: string; tone: string;
   children: React.ReactNode; className?: string;
 }) {

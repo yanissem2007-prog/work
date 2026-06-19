@@ -1,6 +1,6 @@
 'use client';
-import { use, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { useRouter, useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
 import { ArrowLeft, EyeOff, Sparkles, CheckCircle2, ShieldCheck } from 'lucide-react';
@@ -22,8 +22,8 @@ const DIMS = [
   { key: 'growth',     label: 'Career growth' }
 ] as const;
 
-export default function WriteReviewPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = use(params);
+export default function WriteReviewPage() {
+  const { slug } = useParams();
   const router = useRouter();
 
   const [rating, setRating] = useState(4);

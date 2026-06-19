@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, type InferSchemaType } from 'mongoose';
 
 export const JOB_TYPES = ['full-time', 'part-time', 'internship', 'contract'] as const;
 export const EXPERIENCE_LEVELS = ['intern', 'entry', 'mid', 'senior', 'staff', 'principal'] as const;
@@ -60,6 +60,7 @@ const SavedJobSchema = new Schema({
 }, { timestamps: true });
 SavedJobSchema.index({ userId: 1, jobId: 1 }, { unique: true });
 
+export type Job = InferSchemaType<typeof JobSchema> & { _id: import('mongoose').Types.ObjectId };
 export const JobModel = model('Job', JobSchema);
 export const ApplicationModel = model('Application', ApplicationSchema);
 export const SavedJobModel = model('SavedJob', SavedJobSchema);

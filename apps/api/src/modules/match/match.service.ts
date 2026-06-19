@@ -103,7 +103,7 @@ export const matchService = {
     const recency = Math.max(0, Math.round(100 - Math.max(0, ageDays - 14) * (100 / 76)));
 
     // Interests: overlap with skills user has shown interest in via applications.
-    const interestOverlap = jobSkills.filter((s) => ctx.interestSkills.has(s)).length;
+    const interestOverlap = jobSkills.filter((s: string) => ctx.interestSkills.has(s)).length;
     const interests = Math.min(100, interestOverlap * 25);
 
     const breakdown: MatchBreakdown = { skills, experience, location, recency, interests };

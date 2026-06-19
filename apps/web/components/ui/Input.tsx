@@ -83,7 +83,9 @@ Input.displayName = 'Input';
 
 /* Floating label variant — premium */
 export const FloatingInput = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error, className, id, ...props }, ref) => {
+  // Strip non-native props (hint/leading/trailing/size/variant/invalid) so they
+  // are never spread onto the underlying <input>.
+  ({ label, error, className, id, hint, leading, trailing, size, variant, invalid, ...props }, ref) => {
     const uid = useId();
     const inputId = id ?? uid;
     const [val, setVal] = useState('');
@@ -120,15 +122,34 @@ export const FloatingInput = forwardRef<HTMLInputElement, InputProps>(
 );
 FloatingInput.displayName = 'FloatingInput';
 
-export const Textarea = forwardRef<HTMLTextAreaElement, React.TextareaHTMLAttributes<HTMLTextAreaElement>>(
-  ({ className, ...p }, ref) => (
-    <textarea ref={ref}
-      className={cn(
-        'w-full min-h-24 rounded-xl bg-surface border border-border px-4 py-3',
-        'text-sm text-fg outline-none transition-all duration-normal resize-y',
-        'focus:border-accent focus:shadow-glow',
-        className
-      )} {...p} />
-  )
+export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+  label?: string;
+  error?: string;
+  hint?: string;
+}
+
+export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
+  ({ className, label, error, hint, id, ...p }, ref) => {
+    const uid = useId();
+    const taId = id ?? uid;
+    return (
+      <div className="flex flex-col gap-1.5">
+        {label && (
+          <label htmlFor={taId} className="text-xs font-medium text-fg-soft tracking-snug">{label}</label>
+        )}
+        <textarea ref={ref} id={taId} aria-invalid={!!error}
+          className={cn(
+            'w-full min-h-24 rounded-xl bg-surface border px-4 py-3',
+            'text-sm text-fg outline-none transition-all duration-normal resize-y',
+            'focus:border-accent focus:shadow-glow',
+            error ? 'border-danger' : 'border-border',
+            className
+          )} {...p} />
+        {(error || hint) && (
+          <p className={cn('text-xs', error ? 'text-danger' : 'text-muted')}>{error ?? hint}</p>
+        )}
+      </div>
+    );
+  }
 );
 Textarea.displayName = 'Textarea';

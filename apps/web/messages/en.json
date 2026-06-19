@@ -22,7 +22,10 @@
     "profile": "Profile",
     "settings": "Settings",
     "search": "Search",
-    "notifications": "Notifications"
+    "notifications": "Notifications",
+    "sectionCareer": "Career",
+    "sectionNetwork": "Network",
+    "sectionYou": "You"
   },
   "common": {
     "save": "Save",

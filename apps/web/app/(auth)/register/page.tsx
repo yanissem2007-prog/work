@@ -224,7 +224,7 @@ export default function RegisterPage() {
                 <p className="mt-2 text-muted">
                   We sent a verification link to <span className="text-fg">{form.email}</span>.
                 </p>
-                <Button variant="accent" size="lg" magnetic className="mt-6 w-full" onClick={() => router.push('/feed')}>
+                <Button variant="accent" size="lg" magnetic className="mt-6 w-full" onClick={() => router.push('/home')}>
                   Enter WORK <ArrowRight size={16} />
                 </Button>
               </div>

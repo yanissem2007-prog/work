@@ -1,10 +1,12 @@
 'use client';
-import { useEffect, useRef } from 'react';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useEffect, useRef, useState } from 'react';
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Sparkles, Compass, Flame, TrendingUp } from 'lucide-react';
+import { Sparkles, Compass, Flame, TrendingUp, ArrowUp } from 'lucide-react';
 import Link from 'next/link';
 import { api } from '@/lib/api';
+import { useSocket } from '@/providers/SocketProvider';
+import { useAuthStore } from '@/stores/authStore';
 import { Spinner } from '@/components/ui/Spinner';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -23,6 +25,28 @@ interface Page { items: HomeItem[]; cursor?: string }
 
 export default function HomePage() {
   const sentinel = useRef<HTMLDivElement>(null);
+  const qc = useQueryClient();
+  const socket = useSocket();
+  const myId = useAuthStore((s) => s.user?.id);
+  const [newCount, setNewCount] = useState(0);
+
+  // Live: surface posts that arrive while you're reading, without yanking the
+  // scroll position. Skip your own posts (the composer already refreshes).
+  useEffect(() => {
+    if (!socket) return;
+    const onNew = (post: { author?: { id?: string } }) => {
+      if (post?.author?.id && post.author.id === myId) return;
+      setNewCount((c) => c + 1);
+    };
+    socket.on('post:new', onNew);
+    return () => { socket.off('post:new', onNew); };
+  }, [socket, myId]);
+
+  function revealNew() {
+    setNewCount(0);
+    qc.invalidateQueries({ queryKey: ['home-feed'] });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useInfiniteQuery<Page, Error, { pages: Page[]; pageParams: unknown[] }, [string], string | undefined>({
@@ -48,6 +72,22 @@ export default function HomePage() {
   return (
     <div className="grid lg:grid-cols-[1fr_300px] gap-6">
       <div className="space-y-4">
+        <AnimatePresence>
+          {newCount > 0 && (
+            <motion.button
+              key="new-posts-pill"
+              initial={{ opacity: 0, y: -12, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -12, scale: 0.9 }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              onClick={revealNew}
+              className="sticky top-16 z-20 mx-auto flex w-fit items-center gap-2 rounded-pill bg-grad-accent px-4 py-2 text-sm font-medium text-accent-fg shadow-glow"
+            >
+              <ArrowUp size={15} /> {newCount} new {newCount === 1 ? 'post' : 'posts'}
+            </motion.button>
+          )}
+        </AnimatePresence>
+
         {/* Welcome card */}
         <motion.section
           initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}

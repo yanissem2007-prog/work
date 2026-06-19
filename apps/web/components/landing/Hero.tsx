@@ -2,9 +2,16 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { ArrowRight, Sparkles, Command } from 'lucide-react';
-import { HeroOrb } from '@/components/three/HeroOrb';
 import { Button } from '@/components/ui/Button';
+
+// react-three-fiber cannot render on the server (it reaches into React
+// internals that don't exist during SSR). Load it client-only.
+const HeroOrb = dynamic(
+  () => import('@/components/three/HeroOrb').then((m) => m.HeroOrb),
+  { ssr: false, loading: () => null }
+);
 import { Badge } from '@/components/ui/Badge';
 import { Magnetic } from '@/components/motion/Magnetic';
 import { TextReveal } from '@/components/motion/TextReveal';

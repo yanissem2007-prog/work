@@ -1,5 +1,6 @@
 'use client';
-import { use } from 'react';
+import {  } from 'react';
+import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { Printer } from 'lucide-react';
 import type { Cv } from '@work/types';
@@ -8,8 +9,8 @@ import { TEMPLATES_MAP } from '@/components/cv/templates';
 import { Spinner } from '@/components/ui/Spinner';
 import { Button } from '@/components/ui/Button';
 
-export default function PublicCvPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = use(params);
+export default function PublicCvPage() {
+  const { slug } = useParams();
   const { data: cv, isLoading } = useQuery<Cv>({
     queryKey: ['public-cv', slug],
     queryFn: async () => (await api.get(`/cv/public/${slug}`)).data.data

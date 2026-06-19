@@ -139,6 +139,19 @@ export const authService = {
     await this.revokeAll(userId); // invalidate sessions everywhere
   },
 
+  // ─────── Change password (logged in) ───────
+  async changePassword(userId: string, currentPassword: string, newPassword: string) {
+    const user = await UserModel.findById(userId);
+    if (!user?.passwordHash) {
+      throw new HttpError(400, 'NO_PASSWORD', 'This account has no password (social login). Use password reset instead.');
+    }
+    const ok = await bcrypt.compare(currentPassword, user.passwordHash);
+    if (!ok) throw new HttpError(401, 'INVALID', 'Current password is incorrect');
+    user.passwordHash = await bcrypt.hash(newPassword, BCRYPT_ROUNDS);
+    await user.save();
+    await this.revokeAll(userId); // sign out other devices
+  },
+
   // ─────── OAuth upsert ───────
   async upsertFromOAuth(p: {
     provider: 'google' | 'github';

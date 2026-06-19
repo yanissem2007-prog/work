@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter, JetBrains_Mono } from 'next/font/google';
+import { Inter, JetBrains_Mono, Fraunces } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
 import { LOCALE_META, LOCALES, DEFAULT_LOCALE, type Locale } from '@/i18n/config';
@@ -13,6 +13,16 @@ import { PageTransition } from '@/components/effects/PageTransition';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans', display: 'swap', preload: true });
 const mono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono', display: 'swap' });
+// Editorial display serif — gives the brand a human, designed character
+// instead of the generic geometric-sans "SaaS template" look.
+// Variable font: when `axes` are specified, next/font requires `weight` to be
+// omitted (the full variable weight range is loaded automatically).
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  variable: '--font-display',
+  display: 'swap',
+  axes: ['opsz', 'SOFT', 'WONK']
+});
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://work.app';
 
@@ -65,7 +75,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const dir = LOCALE_META[locale]?.dir ?? 'ltr';
 
   return (
-    <html lang={locale} dir={dir} suppressHydrationWarning className={`${inter.variable} ${mono.variable}`}>
+    <html lang={locale} dir={dir} suppressHydrationWarning className={`${inter.variable} ${mono.variable} ${fraunces.variable}`}>
       <body className="antialiased font-sans selection:bg-accent/30 selection:text-fg">
         <SkipNav />
         <NextIntlClientProvider locale={locale} messages={messages}>

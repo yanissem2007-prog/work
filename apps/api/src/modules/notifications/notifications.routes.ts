@@ -84,7 +84,7 @@ const PrefDto = z.object({
 });
 
 notificationRouter.get('/prefs', authRequired, asyncHandler(async (req, res) => {
-  let prefs = await NotificationPrefsModel.findOne({ userId: req.user!.sub }).lean();
+  let prefs: any = await NotificationPrefsModel.findOne({ userId: req.user!.sub }).lean();
   if (!prefs) {
     const created = await NotificationPrefsModel.create({ userId: req.user!.sub });
     prefs = created.toObject();

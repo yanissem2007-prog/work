@@ -1,4 +1,5 @@
 'use client';
+import type { LucideIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
@@ -18,7 +19,7 @@ import { cn, formatRelative } from '@/lib/utils';
 
 type Focus = 'career' | 'learning' | 'profile' | 'tech' | 'interview';
 
-const FOCI: { id: Focus; label: string; desc: string; icon: React.ComponentType<{ size?: number }>; tone: string }[] = [
+const FOCI: { id: Focus; label: string; desc: string; icon: LucideIcon; tone: string }[] = [
   { id: 'career',    label: 'Career improvement', desc: 'Promotion, comp, positioning',    icon: Briefcase, tone: 'oklch(72% 0.2 264)' },
   { id: 'learning',  label: 'Learning plan',      desc: 'Skill stack + cadence',           icon: BookOpen,  tone: 'oklch(78% 0.18 200)' },
   { id: 'profile',   label: 'Profile glow-up',    desc: 'CV, portfolio, signal',           icon: UserIcon,  tone: 'oklch(70% 0.24 340)' },

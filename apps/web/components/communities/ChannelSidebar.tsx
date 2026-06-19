@@ -2,12 +2,13 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Hash, Megaphone, BookOpen, Calendar, Plus, Settings, ChevronDown, ChevronRight } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import type { Channel, Community, ChannelType } from '@work/types';
 import { Badge } from '@/components/ui/Badge';
 import { can } from '@/lib/communityPermissions';
 import { cn } from '@/lib/utils';
 
-const ICONS: Record<ChannelType, React.ComponentType<{ size?: number; className?: string }>> = {
+const ICONS: Record<ChannelType, LucideIcon> = {
   text: Hash, announcement: Megaphone, resource: BookOpen, event: Calendar
 };
 

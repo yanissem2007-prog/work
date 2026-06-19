@@ -1,5 +1,6 @@
 'use client';
-import { use, useState } from 'react';
+import { useState } from 'react';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
@@ -45,8 +46,8 @@ interface Review {
 
 type Tab = 'overview' | 'jobs' | 'reviews';
 
-export default function CompanyPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = use(params);
+export default function CompanyPage() {
+  const { slug } = useParams<{ slug: string }>();
   const [tab, setTab] = useState<Tab>('overview');
 
   const company = useQuery<Company>({

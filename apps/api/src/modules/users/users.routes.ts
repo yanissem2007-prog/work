@@ -41,7 +41,7 @@ const UpdateUserDto = z.object({
   bio: z.string().max(1000).optional(),
   location: z.string().max(120).optional(),
   skills: z.array(z.string()).max(40).optional(),
-  avatar: z.string().url().optional()
+  avatar: z.string().max(500).optional() // absolute URL or relative /uploads path
 });
 
 userRouter.patch('/me', authRequired, asyncHandler(async (req, res) => {
@@ -52,7 +52,7 @@ userRouter.patch('/me', authRequired, asyncHandler(async (req, res) => {
 }));
 
 const UpdateProfileDto = z.object({
-  cover: z.string().url().optional(),
+  cover: z.string().max(500).optional(), // absolute URL or relative /uploads path
   pronouns: z.string().max(30).optional(),
   experience: z.array(z.object({
     company: z.string(), role: z.string(),

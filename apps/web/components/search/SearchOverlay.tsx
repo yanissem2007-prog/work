@@ -1,4 +1,5 @@
 'use client';
+import type { LucideIcon } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
@@ -12,7 +13,7 @@ import { useDebounce } from '@/hooks/useDebounce';
 import { useSearchStore } from '@/stores/searchStore';
 import { cn } from '@/lib/utils';
 
-const ICON: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
+const ICON: Record<string, LucideIcon> = {
   jobs: Briefcase, users: UserIcon, companies: Building2,
   communities: Users, posts: MessageSquare, events: Calendar, gigs: ShoppingBag,
   query: Sparkles

@@ -16,19 +16,19 @@ export interface TrendingPost {
   id: string; content: string; createdAt: string;
   score: number;
   likes: number; comments: number; reposts: number;
-  author?: { handle?: string; name?: string; avatar?: string };
+  author?: { handle?: string; name?: string; avatar?: string | null } | Record<string, any>;
 }
 export interface TrendingJob {
   id: string; title: string;
   applicantsCount: number; viewsCount: number;
   createdAt: string;
   applicantsLastDay: number;
-  company?: { name?: string; slug?: string; logo?: string };
+  company?: { name?: string; slug?: string; logo?: string | null } | Record<string, any>;
 }
 export interface TrendingSkill   { skill: string; jobMentions: number; postMentions: number; score: number }
 export interface TrendingTech    { tech: string; jobs: number; posts: number; score: number }
 export interface TrendingCommunity {
-  id: string; slug: string; name: string; icon?: string; accent?: string;
+  id: string; slug: string; name: string; icon?: string | null; accent?: string | null;
   membersCount: number; newJoiners: number; recentMessages: number; score: number;
 }
 

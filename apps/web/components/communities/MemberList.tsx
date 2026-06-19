@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import * as Dropdown from '@radix-ui/react-dropdown-menu';
 import { Crown, Shield, ShieldCheck, User as UserIcon, MoreHorizontal, UserX, VolumeX, ShieldOff } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import type { Community, CommunityRole, User } from '@work/types';
 import { api } from '@/lib/api';
 import { Avatar } from '@/components/ui/Avatar';
@@ -17,7 +18,7 @@ interface MemberRow {
   user: Pick<User, 'handle' | 'name' | 'avatar' | 'headline'> & { _id: string; id?: string };
 }
 
-const ROLE_ICON: Record<CommunityRole, React.ComponentType<{ size?: number; className?: string }>> = {
+const ROLE_ICON: Record<CommunityRole, LucideIcon> = {
   owner: Crown, admin: ShieldCheck, moderator: Shield, member: UserIcon
 };
 const ROLE_COLOR: Record<CommunityRole, string> = {

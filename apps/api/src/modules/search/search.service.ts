@@ -17,9 +17,9 @@ export interface SearchHit<T = unknown> {
   type: SearchType;
   id: string;
   title: string;
-  subtitle?: string;
-  description?: string;
-  image?: string;
+  subtitle?: string | null;
+  description?: string | null;
+  image?: string | null;
   href: string;
   score: number;
   meta?: Record<string, unknown>;
@@ -104,7 +104,7 @@ export async function universalSearch(q: string, types?: SearchType[]): Promise<
 async function searchJobs(q: string, re: RegExp): Promise<SearchHit[]> {
   const rows = await JobModel.find({
     status: 'open',
-    $or: [{ $text: { $search: q } }, { title: re }, { skills: re }]
+    $or: [{ title: re }, { skills: re }]
   }).limit(LIMIT_PER_TYPE).lean();
   const companies = await CompanyModel.find({ _id: { $in: rows.map((j) => j.companyId) } })
     .select('name slug logo').lean();
@@ -173,7 +173,7 @@ async function searchPosts(q: string, re: RegExp): Promise<SearchHit[]> {
   const rows = await PostModel.find({
     deletedAt: null,
     visibility: 'public',
-    $or: [{ $text: { $search: q } }, { content: re }, { tags: re }]
+    $or: [{ content: re }, { tags: re }]
   }).sort({ createdAt: -1 }).limit(LIMIT_PER_TYPE).lean();
   return rows.map((p, i) => ({
     type: 'posts' as const,
@@ -189,7 +189,7 @@ async function searchEvents(q: string, re: RegExp): Promise<SearchHit[]> {
   const rows = await EventModel.find({
     status: 'published',
     endsAt: { $gte: new Date() },
-    $or: [{ $text: { $search: q } }, { title: re }, { tags: re }]
+    $or: [{ title: re }, { tags: re }]
   }).sort({ startsAt: 1 }).limit(LIMIT_PER_TYPE).lean();
   return rows.map((e, i) => ({
     type: 'events' as const,
@@ -206,7 +206,7 @@ async function searchEvents(q: string, re: RegExp): Promise<SearchHit[]> {
 async function searchGigs(q: string, re: RegExp): Promise<SearchHit[]> {
   const rows = await GigModel.find({
     status: 'published',
-    $or: [{ $text: { $search: q } }, { title: re }, { skills: re }]
+    $or: [{ title: re }, { skills: re }]
   }).limit(LIMIT_PER_TYPE).lean();
   return rows.map((g, i) => ({
     type: 'gigs' as const,

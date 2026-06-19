@@ -1,5 +1,6 @@
 'use client';
-import { use, useState } from 'react';
+import { useState } from 'react';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -49,8 +50,8 @@ interface Announcement {
   author?: { name?: string; avatar?: string };
 }
 
-export default function EventDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params);
+export default function EventDetailPage() {
+  const { id } = useParams();
   const me = useAuthStore((s) => s.user);
   const qc = useQueryClient();
 

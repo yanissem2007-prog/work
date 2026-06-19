@@ -1,8 +1,8 @@
 'use client';
-import { use, useState } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
 import { ArrowLeft, MessageCircle, Sparkles, Eye, ShoppingBag } from 'lucide-react';
@@ -32,8 +32,8 @@ interface Gig {
   reviews: { _id: string; rating: number; comment?: string; createdAt: string; buyer?: { name?: string; avatar?: string; handle?: string } }[];
 }
 
-export default function GigDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params);
+export default function GigDetailPage() {
+  const { id } = useParams();
   const router = useRouter();
   const me = useAuthStore((s) => s.user);
   const [selectedTier, setSelectedTier] = useState<Pkg['tier']>('standard');
