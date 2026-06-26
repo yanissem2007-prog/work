@@ -7,3 +7,7 @@ dist
 *.log
 .DS_Store
 coverage
+*.tsbuildinfo
+# runtime upload artifacts (keep the folder, ignore its contents)
+apps/web/public/uploads/*
+!apps/web/public/uploads/.gitkeep

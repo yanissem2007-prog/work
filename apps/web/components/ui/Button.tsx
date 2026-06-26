@@ -1,34 +1,28 @@
 'use client';
-import { forwardRef, useRef } from 'react';
+import { forwardRef } from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
+// Professional, restrained buttons: clean color/hover states, a visible focus
+// ring, and a loading indicator. No magnetic pull, lift, scale or shine sweep.
 const buttonVariants = cva(
   [
-    'group relative inline-flex items-center justify-center gap-2',
-    'font-medium select-none whitespace-nowrap isolate',
-    'transition-[transform,background,color,box-shadow,border-color] duration-normal ease-out-expo',
-    'active:scale-[0.97] disabled:pointer-events-none disabled:opacity-40',
-    'ring-focus overflow-hidden'
+    'relative inline-flex items-center justify-center gap-2',
+    'font-medium select-none whitespace-nowrap',
+    'transition-[color,background-color,border-color,box-shadow,opacity] duration-150 ease-out',
+    'disabled:pointer-events-none disabled:opacity-40 ring-focus'
   ],
   {
     variants: {
       variant: {
-        primary:
-          'bg-fg text-bg shadow-md hover:shadow-lg hover:-translate-y-0.5',
-        accent:
-          'text-accent-fg bg-grad-accent shadow-glow hover:brightness-110 hover:-translate-y-0.5',
-        glass:
-          'glass text-fg hover:bg-surface-2/60',
-        outline:
-          'border border-border-strong text-fg hover:bg-surface',
-        ghost:
-          'text-fg hover:bg-surface',
-        danger:
-          'bg-danger text-white hover:brightness-110',
-        link:
-          'text-accent underline-offset-4 hover:underline'
+        primary: 'bg-fg text-bg shadow-sm hover:opacity-90',
+        accent: 'text-accent-fg bg-grad-accent shadow-sm hover:brightness-[1.04]',
+        glass: 'glass text-fg hover:bg-surface-2/60',
+        outline: 'border border-border-strong text-fg hover:bg-surface',
+        ghost: 'text-fg hover:bg-surface',
+        danger: 'bg-danger text-white hover:brightness-[1.04]',
+        link: 'text-accent underline-offset-4 hover:underline'
       },
       size: {
         xs: 'h-7 px-2.5 text-xs rounded-md',
@@ -48,62 +42,22 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
+  /** Kept for API compatibility — intentionally no-ops (no gadget animations). */
   magnetic?: boolean;
-  loading?: boolean;
   shine?: boolean;
+  loading?: boolean;
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild, magnetic, loading, shine = true, children, ...props }, ref) => {
-    const innerRef = useRef<HTMLButtonElement | null>(null);
+  ({ className, variant, size, asChild, magnetic: _m, shine: _s, loading, children, ...props }, ref) => {
+    const classes = cn(buttonVariants({ variant, size }), className);
 
-    function onMove(e: React.MouseEvent<HTMLButtonElement>) {
-      if (!magnetic) return;
-      const el = innerRef.current; if (!el) return;
-      const r = el.getBoundingClientRect();
-      const x = e.clientX - r.left - r.width / 2;
-      const y = e.clientY - r.top - r.height / 2;
-      el.style.transform = `translate(${x * 0.18}px, ${y * 0.22}px)`;
-    }
-    function onLeave() {
-      if (!magnetic) return;
-      const el = innerRef.current; if (!el) return;
-      el.style.transform = '';
-    }
-
-    const setRef = (node: HTMLButtonElement | null) => {
-      innerRef.current = node;
-      if (typeof ref === 'function') ref(node);
-      else if (ref) (ref as React.MutableRefObject<HTMLButtonElement | null>).current = node;
-    };
-
-    const classes = cn(buttonVariants({ variant, size }), shine && 'shine', className);
-
-    // asChild: Radix Slot requires a SINGLE element child. Pass children
-    // straight through (the caller provides one element, e.g. <Link>).
     if (asChild) {
-      return (
-        <Slot
-          ref={setRef as never}
-          onMouseMove={onMove}
-          onMouseLeave={onLeave}
-          className={classes}
-          {...props}
-        >
-          {children}
-        </Slot>
-      );
+      return <Slot ref={ref as never} className={classes} {...props}>{children}</Slot>;
     }
 
     return (
-      <button
-        ref={setRef}
-        onMouseMove={onMove}
-        onMouseLeave={onLeave}
-        disabled={loading || props.disabled}
-        className={classes}
-        {...props}
-      >
+      <button ref={ref} disabled={loading || props.disabled} className={classes} {...props}>
         {loading && (
           <span className="inline-flex gap-1" aria-hidden>
             <span className="size-1.5 rounded-full bg-current animate-[dot-bounce_1.2s_infinite]" />
@@ -111,9 +65,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             <span className="size-1.5 rounded-full bg-current animate-[dot-bounce_1.2s_infinite] [animation-delay:0.3s]" />
           </span>
         )}
-        <span className={cn('inline-flex items-center gap-2', loading && 'opacity-0')}>
-          {children}
-        </span>
+        <span className={cn('inline-flex items-center gap-2', loading && 'opacity-0')}>{children}</span>
       </button>
     );
   }

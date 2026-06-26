@@ -6,9 +6,7 @@ import { redis } from './config/redis';
 import { attachSockets } from './sockets';
 import { logger } from './config/logger';
 import { env } from './config/env';
-import { startReminderLoop, stopReminderLoop } from './modules/events/reminders';
-import { startTrendingLoop, stopTrendingLoop } from './modules/trending/trending.routes';
-import { startDigestLoop, stopDigestLoop } from './modules/digest/digest.service';
+import { startJobs, stopJobs } from './config/jobs';
 
 async function main() {
   await connectDB();
@@ -22,15 +20,11 @@ async function main() {
     logger.info(`API listening on :${env.PORT}`);
   });
 
-  startReminderLoop();
-  startTrendingLoop();
-  startDigestLoop();
+  await startJobs();
 
   const shutdown = async () => {
     logger.info('shutting down');
-    stopReminderLoop();
-    stopTrendingLoop();
-    stopDigestLoop();
+    await stopJobs();
     server.close();
     await redis.quit();
     process.exit(0);

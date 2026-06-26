@@ -6,10 +6,12 @@ let _client: OpenAI | null = null;
 
 export function openai(): OpenAI | null {
   if (!env.OPENAI_API_KEY) return null;
-  _client ??= new OpenAI({ apiKey: env.OPENAI_API_KEY });
+  // baseURL lets you point at any OpenAI-compatible API (Groq, OpenRouter…).
+  _client ??= new OpenAI({ apiKey: env.OPENAI_API_KEY, baseURL: env.OPENAI_BASE_URL || undefined });
   return _client;
 }
 
+// Set AI_MODEL to match your provider (e.g. Groq: llama-3.3-70b-versatile).
 export const MODEL = process.env.AI_MODEL ?? 'gpt-4o-mini';
 
 export function isAIEnabled(): boolean {

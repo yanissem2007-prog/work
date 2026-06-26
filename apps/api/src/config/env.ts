@@ -33,6 +33,8 @@ const Env = z.object({
   CLOUDINARY_API_KEY: z.string().optional(),
   CLOUDINARY_API_SECRET: z.string().optional(),
   OPENAI_API_KEY: z.string().optional(),
+  // Override to use any OpenAI-compatible provider (Groq, OpenRouter, …).
+  OPENAI_BASE_URL: z.string().optional(),
   MAILTRAP_HOST: z.string().default('sandbox.smtp.mailtrap.io'),
   MAILTRAP_PORT: z.coerce.number().default(2525),
   MAILTRAP_USER: z.string().optional(),

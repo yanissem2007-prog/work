@@ -14,9 +14,17 @@ const ALLOWED = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/av
  * disk write for a blob store — the response contract ({ url }) stays the same.
  */
 export async function POST(req: NextRequest) {
-  // Basic gate: only authenticated clients send an Authorization header.
-  if (!req.headers.get('authorization')) {
+  // Verify the bearer token against the API (server-side, not bypassable by CSP).
+  const auth = req.headers.get('authorization');
+  if (!auth?.startsWith('Bearer ')) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000/api/v1';
+  try {
+    const me = await fetch(`${apiUrl}/auth/me`, { headers: { Authorization: auth }, cache: 'no-store' });
+    if (!me.ok) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  } catch {
+    return NextResponse.json({ error: 'Auth verification failed' }, { status: 401 });
   }
 
   let form: FormData;

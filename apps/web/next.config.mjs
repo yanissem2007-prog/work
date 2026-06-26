@@ -1,6 +1,29 @@
 import createNextIntlPlugin from 'next-intl/plugin';
 const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
 
+// Derive allowed origins for the CSP from env (API + realtime socket).
+const originOf = (url, fallback) => { try { return new URL(url ?? fallback).origin; } catch { return fallback; } };
+const apiOrigin = originOf(process.env.NEXT_PUBLIC_API_URL, 'http://localhost:4000/api/v1');
+const socketOrigin = originOf(process.env.NEXT_PUBLIC_SOCKET_URL, 'http://localhost:4000');
+const wsOrigin = socketOrigin.replace(/^http/, 'ws');
+
+const CSP = [
+  "default-src 'self'",
+  // Next + framer/three need inline/eval; nonce-based hardening is a later step.
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  `img-src 'self' data: blob: https: ${apiOrigin}`,
+  "font-src 'self' https://fonts.gstatic.com data:",
+  `connect-src 'self' ${apiOrigin} ${socketOrigin} ${wsOrigin} https: wss:`,
+  "media-src 'self' https: blob:",
+  "worker-src 'self' blob:",
+  "frame-src 'none'",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  "frame-ancestors 'none'"
+].join('; ');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -29,6 +52,8 @@ const nextConfig = {
       {
         source: '/(.*)',
         headers: [
+          { key: 'Content-Security-Policy', value: CSP },
+          { key: 'Strict-Transport-Security', value: 'max-age=31536000; includeSubDomains; preload' },
           { key: 'X-Content-Type-Options', value: 'nosniff' },
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
           { key: 'X-Frame-Options', value: 'DENY' },

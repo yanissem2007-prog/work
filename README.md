@@ -35,11 +35,26 @@ npm run dev
 
 Web: http://localhost:3000  ·  API: http://localhost:4000
 
+Seed demo data: `npm run seed` → log in with **demo@work.app / password123**.
+
+### ⚠️ Windows + OneDrive
+
+OneDrive corrupts `node_modules` / `.next` (it virtualizes build files into truncated placeholders → broken installs and black screens). If this project lives under OneDrive:
+
+- `node_modules` is kept **outside** OneDrive via directory junctions (`node_modules → C:\work-modules\…`). If you ever delete `node_modules`, recreate the junctions before `npm install`, e.g.:
+  ```cmd
+  mklink /J node_modules C:\work-modules\root
+  ```
+- `predev` clears `.next` before each `npm run dev` (avoids stale/corrupt cache).
+- Best long-term fix: move the repo out of OneDrive (e.g. `C:\dev\work`).
+
 ## Scripts
 
 - `npm run dev` — run web + api in parallel
-- `npm run build` — build all
+- `npm run build` — build all (production)
 - `npm run typecheck` — typecheck all
+- `npm run test` — run unit tests (Vitest, web + api)
+- `npm run seed` / `npm run seed:reset` — populate demo data
 
 ## API surface
 

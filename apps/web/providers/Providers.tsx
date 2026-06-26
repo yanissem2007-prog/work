@@ -1,6 +1,7 @@
 'use client';
 import { ThemeProvider } from 'next-themes';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { MotionConfig } from 'framer-motion';
 import { useState } from 'react';
 import { LenisProvider } from './LenisProvider';
 import { SocketProvider } from './SocketProvider';
@@ -16,9 +17,12 @@ export function Providers({ children }: { children: React.ReactNode }) {
       <QueryClientProvider client={qc}>
         <LenisProvider>
           <SocketProvider>
-            {children}
-            <CommandPalette />
-            <Toaster theme="system" richColors position="bottom-right" />
+            {/* Honor the OS "reduce motion" setting across every Framer animation. */}
+            <MotionConfig reducedMotion="user">
+              {children}
+              <CommandPalette />
+              <Toaster theme="system" richColors position="bottom-right" />
+            </MotionConfig>
           </SocketProvider>
         </LenisProvider>
       </QueryClientProvider>
