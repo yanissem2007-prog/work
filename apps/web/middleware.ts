@@ -15,16 +15,22 @@ function detectFromHeader(acceptLanguage: string | null): Locale {
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  const hasRt = req.cookies.has('work_rt');
+  // In production the web app and the API sit on different domains, so the API's
+  // httpOnly `work_rt` cookie is simply not visible here. The client mirrors a
+  // non-sensitive hint cookie on this origin instead. Locally both share the
+  // `localhost` host (cookies ignore the port), so `work_rt` is still readable —
+  // accept either. This gate is routing UX only: every API call is still
+  // authorized server-side by the bearer token, so a forged hint reveals nothing.
+  const hasSession = req.cookies.has('work_auth') || req.cookies.has('work_rt');
 
   // Auth gates
-  if (PROTECTED.some((p) => pathname.startsWith(p)) && !hasRt) {
+  if (PROTECTED.some((p) => pathname.startsWith(p)) && !hasSession) {
     const url = req.nextUrl.clone();
     url.pathname = '/login';
     url.searchParams.set('next', pathname);
     return NextResponse.redirect(url);
   }
-  if (AUTH_ONLY.some((p) => pathname.startsWith(p)) && hasRt) {
+  if (AUTH_ONLY.some((p) => pathname.startsWith(p)) && hasSession) {
     const url = req.nextUrl.clone();
     url.pathname = '/home';
     return NextResponse.redirect(url);

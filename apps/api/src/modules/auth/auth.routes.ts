@@ -8,6 +8,7 @@ import { initOAuth } from './auth.oauth';
 import { authService } from './auth.service';
 import { env } from '../../config/env';
 import { otpRouter } from '../otp/otp.routes';
+import { REFRESH_COOKIE, refreshCookieOpts } from '../../config/cookies';
 
 const tight = rateLimit({ windowMs: 60_000, max: 5, standardHeaders: true, legacyHeaders: false });
 const normal = rateLimit({ windowMs: 60_000, max: 30 });
@@ -34,10 +35,7 @@ authRouter.post('/change-password', authRequired, tight, asyncHandler(authContro
 // ─── OAuth ───
 const oauthRedirect = async (res: any, user: any) => {
   const { accessToken, refreshToken } = await authService.issueTokens(user.id, user.role);
-  res.cookie('work_rt', refreshToken, {
-    httpOnly: true, secure: env.NODE_ENV === 'production', sameSite: 'lax',
-    path: '/', maxAge: 7 * 24 * 60 * 60 * 1000
-  });
+  res.cookie(REFRESH_COOKIE, refreshToken, refreshCookieOpts);
   const target = `${env.CORS_ORIGIN.split(',')[0]}/oauth/callback#token=${accessToken}`;
   res.redirect(target);
 };

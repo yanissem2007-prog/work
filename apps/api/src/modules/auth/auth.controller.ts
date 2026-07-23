@@ -5,6 +5,7 @@ import { UserModel, ROLES } from './auth.model';
 import { ok, created } from '../../utils/response';
 import { HttpError } from '../../middleware/error';
 import { awardXp } from '../gamification/xp.service';
+import { REFRESH_COOKIE, refreshCookieOpts as cookieOpts } from '../../config/cookies';
 
 const RegisterDto = z.object({
   email: z.string().email(),
@@ -30,18 +31,6 @@ const EmailDto = z.object({ email: z.string().email() });
 const TokenDto = z.object({ token: z.string().min(8) });
 const ResetDto = z.object({ token: z.string().min(8), password: z.string().min(8).max(120) });
 const ChangePasswordDto = z.object({ currentPassword: z.string().min(1), newPassword: z.string().min(8).max(120) });
-
-const REFRESH_COOKIE = 'work_rt';
-// Path '/' so the Next.js middleware (running on the web origin) can see the
-// cookie on protected routes like /home — not just on /api/v1/auth. `secure`
-// is disabled in dev so the cookie is stored over plain http://localhost.
-const cookieOpts = {
-  httpOnly: true,
-  secure: process.env.NODE_ENV === 'production',
-  sameSite: 'lax' as const,
-  path: '/',
-  maxAge: 7 * 24 * 60 * 60 * 1000
-};
 
 export const authController = {
   async register(req: Request, res: Response) {

@@ -89,6 +89,10 @@ git push origin main
    |---|---|
    | `NEXT_PUBLIC_API_URL` | `https://work-api.onrender.com/api/v1` |
    | `NEXT_PUBLIC_SOCKET_URL` | `https://work-api.onrender.com` |
+
+   > ⚠️ Les `NEXT_PUBLIC_*` sont **injectées au build**. Si tu les changes après, il faut **redéployer** (Deployments → Redeploy), sinon l'ancienne valeur reste dans le bundle.
+
+   *(Pour activer l'upload d'avatars, ajoute aussi `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` — voir « Optionnel » plus bas. Sans elles le site marche, mais l'upload d'image renvoie une erreur 503.)*
 5. **Deploy**. À la fin tu obtiens :
    ```
    https://work-xxxx.vercel.app
@@ -142,7 +146,8 @@ NEXT_PUBLIC_SOCKET_URL=https://work-api.onrender.com
 ```
 
 ## Optionnel (fonctionnent sans, mais à activer plus tard)
-- **Uploads d'avatars** : compte **Cloudinary** (gratuit) → `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` sur Render.
+- **Uploads d'avatars** : compte **Cloudinary** (gratuit, https://cloudinary.com) → Dashboard → copie *Cloud name*, *API Key*, *API Secret* → ajoute `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` **sur Vercel** (c'est la route Next `/api/upload` qui envoie l'image).
+  > Obligatoire en prod si tu veux l'upload : le disque de Vercel est en **lecture seule**, l'écriture locale ne marche qu'en dev.
 - **Emails** (vérif/reset) : **Mailtrap** ou un SMTP → `MAILTRAP_*` sur Render.
 - **Login Google/GitHub** : créer les OAuth apps → `GOOGLE_*` / `GITHUB_*` sur Render.
 

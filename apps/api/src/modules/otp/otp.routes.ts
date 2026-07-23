@@ -8,13 +8,13 @@ import { HttpError } from '../../middleware/error';
 import { UserModel } from '../auth/auth.model';
 import { authService } from '../auth/auth.service';
 import { otpService, OTP_CONFIG } from './otp.service';
+import { refreshCookieOpts } from '../../config/cookies';
 
 const tight = rateLimit({ windowMs: 60_000, max: 8 });
 
 export const otpRouter = Router();
 
-const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000;
-const cookieOpts = { httpOnly: true, secure: true, sameSite: 'lax' as const, path: '/api/v1/auth', maxAge: ONE_WEEK_MS };
+const cookieOpts = refreshCookieOpts;
 
 const StartDto = z.object({
   email: z.string().email(),
